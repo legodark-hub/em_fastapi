@@ -38,7 +38,6 @@ class AbstractUnitOfWork(ABC):
 
 
 class UnitOfWork(AbstractUnitOfWork):
-    """The class responsible for the atomicity of transactions."""
 
     def __init__(self) -> None:
         self.session_factory = async_session

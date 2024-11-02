@@ -6,7 +6,7 @@ from fastapi import Query
 @dataclass
 class BaseFilter:
     page: int | None = Query(default=None)
-    per_page: int = Query(ge=1, le=100, default=100)
+    per_page: int = Query(ge=1, le=100, default=50)
 
     @property
     def offset(self) -> int:

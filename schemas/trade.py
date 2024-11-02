@@ -30,20 +30,14 @@ class TradeResponse(BaseResponse):
 class TradeListResponse(BaseResponse):
     payload: list[TradeDB]
     
+class TradeDatesResponse(BaseResponse):
+    payload: list[datetime]
+    
     
 @dataclass
 class TradeFilter(TypeFilter):
-    id: int | None = Query(None)
-    exchange_product_id: str | None = Query(None)
-    exchange_product_name: str | None = Query(None)
     oil_id: str | None = Query(None)
     delivery_basis_id: str | None = Query(None)
-    delivery_basis_name: str | None = Query(None)
     delivery_type_id: str | None = Query(None)
-    volume: str | None = Query(None)
-    total: str | None = Query(None)
-    count: str | None = Query(None)
-    date: datetime | None = Query(None)
-
  
 
