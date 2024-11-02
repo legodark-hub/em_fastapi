@@ -1,6 +1,5 @@
 from collections.abc import Sequence
 from typing import Any
-from uuid import UUID
 
 from utils.unit_of_work import UnitOfWork, transaction_mode
 

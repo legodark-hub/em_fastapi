@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Annotated, Any, Awaitable, Callable
-from sqlalchemy import DateTime, Integer, text
+from sqlalchemy import DateTime, text
 from sqlalchemy.orm import mapped_column
 
 AsyncFunc = Callable[..., Awaitable[Any]]

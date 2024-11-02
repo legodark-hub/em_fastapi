@@ -2,16 +2,12 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, Depends
-from pydantic import UUID4
-from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
+from starlette.status import HTTP_200_OK
 
 from api.services.trade import TradeService
 from schemas.trade import (
     TradeDatesResponse,
     TradeFilter,
-    TradeDB,
-    TradeID,
-    TradeResponse,
     TradeListResponse,
 )
 
