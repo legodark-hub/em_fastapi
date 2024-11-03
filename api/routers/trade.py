@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import TYPE_CHECKING
 
 from fastapi import APIRouter, Depends
+from fastapi_cache.decorator import cache
 from starlette.status import HTTP_200_OK
 
 from api.services.trade import TradeService
@@ -19,7 +20,8 @@ if TYPE_CHECKING:
 router = APIRouter(prefix="/trade")
 
 
-@router.get("/dates/", status_code=HTTP_200_OK)
+@router.get("/dates/", status_code=HTTP_200_OK, response_model=TradeDatesResponse)
+@cache(expire=600)
 async def get_last_trading_dates(
     limit: int,
     service: TradeService = Depends(TradeService),
@@ -28,7 +30,8 @@ async def get_last_trading_dates(
     return TradeDatesResponse(payload=dates)
 
 
-@router.get("/dynamics/", status_code=HTTP_200_OK)
+@router.get("/dynamics/", status_code=HTTP_200_OK, response_model=TradeListResponse)
+@cache(expire=600)
 async def get_dynamics(
     start_date: datetime,
     end_date: datetime,
@@ -39,7 +42,8 @@ async def get_dynamics(
     return TradeListResponse(payload=trades)
 
 
-@router.get("/result/", status_code=HTTP_200_OK)
+@router.get("/result/", status_code=HTTP_200_OK, response_model=TradeListResponse)
+@cache(expire=600)
 async def get_trading_result(
     filter: TradeFilter = Depends(TradeFilter),
     service: TradeService = Depends(TradeService),
