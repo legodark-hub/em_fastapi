@@ -5,9 +5,6 @@ import redis
 
 from config import REDIS_HOST, REDIS_PORT
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
 redis_url = f"redis://{REDIS_HOST}:{REDIS_PORT}"
 
 celery_app = Celery(
@@ -18,13 +15,13 @@ celery_app = Celery(
 redis_client = redis.from_url(redis_url)
 
 @celery_app.task
-async def clear_cache():
-    await redis_client.flushdb()
-    logger.info("Cache cleared")
+def clear_cache():
+    redis_client.flushdb()
+
     
 celery_app.conf.beat_schedule = {
     "clear-cache-every-day": {
-        "task": "tasks.clear_cache",
+        "task": "celery_app.clear_cache",
         "schedule": crontab(hour='14', minute='11'),
     },
 }
