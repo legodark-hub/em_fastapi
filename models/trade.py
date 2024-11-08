@@ -1,18 +1,12 @@
 from datetime import datetime
-from sqlalchemy import MetaData, DateTime, text
-from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
+from models.base import BaseModel
+from schemas.trade import TradeDB
+from utils.custom_types import created_at, updated_at
 
-dt_now_utc_sql = text("TIMEZONE('utc', now())")
-
-
-class Base(DeclarativeBase):
-    metadata = MetaData(schema="oil_trades")
     
-
-
-class OilTrade(Base):
+class Trade(BaseModel):
     __tablename__ = "spimex_trading_results"
     id: Mapped[int] = mapped_column(primary_key=True)
     exchange_product_id: Mapped[str]
@@ -25,9 +19,8 @@ class OilTrade(Base):
     total: Mapped[str]
     count: Mapped[str]
     date: Mapped[datetime]
-    created_on: Mapped[datetime] = mapped_column(
-        DateTime, server_default=dt_now_utc_sql, nullable=False
-    )
-    updated_on: Mapped[datetime] = mapped_column(
-        DateTime, server_default=dt_now_utc_sql, onupdate=dt_now_utc_sql, nullable=False
-    )
+    created_on: Mapped[created_at]
+    updated_on: Mapped[updated_at]
+    
+    def to_pydantic_schema(self) -> TradeDB:
+        return TradeDB(**self.__dict__)
