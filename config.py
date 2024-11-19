@@ -3,6 +3,7 @@ import os
 
 load_dotenv()
 
+MODE = os.getenv("MODE")
 DB_NAME = os.getenv("DB_NAME")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
