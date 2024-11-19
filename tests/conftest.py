@@ -1,5 +1,7 @@
 import asyncio
 from collections.abc import AsyncGenerator, Generator
+from functools import wraps
+from unittest import mock
 from unittest.mock import AsyncMock
 
 import pytest
@@ -17,7 +19,7 @@ from api.services.trade import TradeService
 import config
 from models.base import BaseModel
 from tests.fixtures.fake_service import FakeTradeService
-from main import app
+# from main import app
 
 
 @pytest.fixture(scope="session")
@@ -128,20 +130,26 @@ def fake_trade_service(
     _fake_trade_service = FakeTradeService(transaction_session)
     yield _fake_trade_service
     
-@pytest.fixture
-def mock_cache(mocker: MockerFixture) -> AsyncMock:
-    mock_cache = mocker.patch("fastapi_cache.decorator.cache", new_callable=AsyncMock)
-    mock_cache.return_value = None
-    FastAPICache.init(InMemoryBackend())
-    return mock_cache
+def mock_cache(*args, **kwargs):
+    def wrapper(func):
+        @wraps(func)
+        async def inner(*args, **kwargs):
+            return await func(*args, **kwargs)
+
+        return inner
+
+    return wrapper
+
+
+mock.patch("fastapi_cache.decorator.cache", mock_cache).start()
     
 
 
 @pytest_asyncio.fixture
 async def async_client(
     fake_trade_service: FakeTradeService,
-    mock_cache: AsyncMock,
 ) -> AsyncGenerator[AsyncClient, None]:
+    from main import app
     app.dependency_overrides[TradeService] = lambda: fake_trade_service
 
     async with AsyncClient(
