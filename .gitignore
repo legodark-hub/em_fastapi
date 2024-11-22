@@ -164,3 +164,5 @@ parser/xls_files/
 celerybeat-schedule.bak
 celerybeat-schedule.dat
 celerybeat-schedule.dir
+.vscode/settings.json
+.test.env
