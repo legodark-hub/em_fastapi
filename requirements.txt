@@ -1,0 +1,9 @@
+fastapi
+sqlalchemy
+asyncpg
+redis
+fastapi-cache
+celery
+python-dotenv
+uvicorn
+pytest
