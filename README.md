@@ -17,7 +17,6 @@
 *   **База данных:** PostgreSQL, SQLAlchemy (с asyncpg)
 *   **Кэширование:** Redis, fastapi-cache
 *   **Очередь задач:** Celery
-*   **Управление зависимостями:** pip
 *   **Тестирование:** Pytest
 
 ## API Эндпоинты
